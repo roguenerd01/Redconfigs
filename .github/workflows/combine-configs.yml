@@ -1,0 +1,37 @@
+name: Combine V2Ray Configs
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Download the 10 text files
+        run: |
+          mkdir -p downloads
+          BASE="https://raw.githubusercontent.com/V2RAYCONFIGSPOOL/V2RAY_SUB/main"
+          for i in $(seq 1 10); do
+            echo "Downloading v2ray_configs_no${i}.txt"
+            curl -fsSL "$BASE/v2ray_configs_no${i}.txt" -o "downloads/v2ray_configs_no${i}.txt"
+          done
+
+      - name: Combine files and replace ID
+        run: |
+          cat downloads/v2ray_configs_no*.txt > combined.txt
+          sed 's/@v2ray_configs_pool/Redconfigs/g' combined.txt > Redconfigs.text
+          echo "Total lines: $(wc -l < Redconfigs.text)"
+
+      - name: Commit and push Redconfigs.text
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Redconfigs.text
+          git commit -m "Update Redconfigs.text [skip ci]" || echo "No changes to commit"
+          git push
