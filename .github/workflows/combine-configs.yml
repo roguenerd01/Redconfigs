@@ -11,8 +11,7 @@ jobs:
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v4
-      - name: Keep the workflow alive
+
         uses: gautamkrishnar/keepalive-workflow@v2
       - name: Download the 10 text files
         run: |
