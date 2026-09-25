@@ -2,7 +2,7 @@ name: Combine V2Ray Configs
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -25,13 +25,13 @@ jobs:
       - name: Combine files and replace ID
         run: |
           cat downloads/v2ray_configs_no*.txt > combined.txt
-          sed 's/@v2ray_configs_pool/Redconfigs/g' combined.txt > Redconfigs.text
-          echo "Total lines: $(wc -l < Redconfigs.text)"
+          sed 's/@v2ray_configs_pool/Redconfigs/g' combined.txt > Redconfigs.txt
+          echo "Total lines: $(wc -l < Redconfigs.txt)"
 
-      - name: Commit and push Redconfigs.text
+      - name: Commit and push Redconfigs.txt
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Redconfigs.text
-          git commit -m "Update Redconfigs.text [skip ci]" || echo "No changes to commit"
+          git add Redconfigs.txt
+          git commit -m "Update Redconfigs.txt [skip ci]" || echo "No changes to commit"
           git push
