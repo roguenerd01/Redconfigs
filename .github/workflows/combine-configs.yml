@@ -2,7 +2,7 @@ name: Combine V2Ray Configs
 
 on:
   schedule:
-    - cron: '*/20 * * * *'
+    - cron: '8/20 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
-
+      - name: Keep the workflow alive
+        uses: gautamkrishnar/keepalive-workflow@v2
       - name: Download the 10 text files
         run: |
           mkdir -p downloads
